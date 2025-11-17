@@ -1,3 +1,5 @@
+package service;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -10,9 +12,11 @@ import ru.otus.hw.service.TestServiceImpl;
 
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class TestServiecImpl {
+
+public class TestTestServiecImpl {
     @Mock
     private IOService ioService;
 
@@ -29,7 +33,6 @@ public class TestServiecImpl {
 
     @Test
     void executeTest_shouldPrintQuestionsAndAnswers() {
-        // given
         List<Answer> answers = List.of(
                 new Answer("Answer First", true),
                 new Answer("Answer Second", false)
@@ -41,15 +44,13 @@ public class TestServiecImpl {
 
         when(questionDao.findAll()).thenReturn(questions);
 
-        // when
         testService.executeTest();
 
-        // Проверяем вывод
-        verify(ioService).printLine("");                    // первая пустая строка
+        verify(ioService).printLine("");
         verify(ioService).printFormattedLine("Please answer the questions below%n");
         verify(ioService).printFormattedLine("Question");
         verify(ioService).printLine("1: Answer First");
         verify(ioService).printLine("2: Answer Second");
-        verify(ioService).printFormattedLine("");           // пустая строка после ответов
+        verify(ioService).printFormattedLine("");
     }
 }

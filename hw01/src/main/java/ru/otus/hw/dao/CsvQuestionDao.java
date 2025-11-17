@@ -18,8 +18,7 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileNameProvider.getTestFileName());
-        try {
+        try (InputStream inputStream = classLoader.getResourceAsStream(fileNameProvider.getTestFileName())) {
             List<QuestionDto> questions = new CsvToBeanBuilder<QuestionDto>(new InputStreamReader(inputStream))
                     .withSkipLines(1)
                     .withType(QuestionDto.class)
@@ -32,7 +31,6 @@ public class CsvQuestionDao implements QuestionDao {
                     .toList();
 
         } catch (Exception ex) {
-            // Оборачиваем любую ошибку в твоё исключение
             throw new QuestionReadException("Failed to read file: " + fileNameProvider.getTestFileName(), ex);
         }
     }
