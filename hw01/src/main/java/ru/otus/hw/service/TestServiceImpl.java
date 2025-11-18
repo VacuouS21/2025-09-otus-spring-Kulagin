@@ -19,22 +19,18 @@ public class TestServiceImpl implements TestService {
         ioService.printLine("");
         ioService.printFormattedLine("Please answer the questions below%n");
         List<Question> questions = questionDao.findAll();
-        printAllDate(questions);
+        printAllQuestions(questions);
     }
 
-    private void printAllDate(List<Question> questions) {
+    private void printAllQuestions(List<Question> questions) {
         for (Question question : questions) {
-            ioService.printFormattedLine(convertDataToString(question));
+            ioService.printFormattedLine(convertQuestionToString(question));
         }
     }
 
-    private String convertDataToString(Question question) {
-        return convertQuestionToString(question)
-                + convertAnswersToString(question.answers());
-    }
-
     private String convertQuestionToString(Question question) {
-        return question.text() + "\n";
+        return question.text() + "\n"
+                + convertAnswersToString(question.answers());
     }
 
     private String convertAnswersToString(List<Answer> answers) {
