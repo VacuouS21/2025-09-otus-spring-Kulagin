@@ -15,7 +15,7 @@ public class TestRunnerServiceImpl implements TestRunnerService {
         try {
             testService.executeTest();
         } catch (QuestionReadException e) {
-            ioService.printLine("Error reading data from file");
+            ioService.printLine("Error reading data");
         }
     }
 }

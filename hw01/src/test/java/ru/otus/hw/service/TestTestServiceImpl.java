@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class TestTestServiecImpl {
+public class TestTestServiceImpl {
     @Mock
     private IOService ioService;
 
