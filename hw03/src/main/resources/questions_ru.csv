@@ -1,0 +1,21 @@
+# Добавить сюда своих вопросов. Эту строку надо пропустить при настройке CsvToBean (withSkipLines)
+Есть ли жизнь на Марсе?;Это науке пока не известно%true|Конечно. Красные (НЛО) это с Марса. А зеленые (НЛО) с Венеры%false|Точно нет%false
+Как нужно загружать ресурс из jar в Java?;ClassLoader#geResourceAsStream или ClassPathResource#getInputStream%true|ClassLoader#geResource#getFile + FileReader%false|Wingardium Leviosa%false
+Какой предпочтительный способ реакции на исключения?;@SneakyThrow%false|e.printStackTrace()%false|Проброс дальше с предварительным оборачиванием в бизнес-исключение (например, QuestionReadException)%true|Игнорирование исключения%false
+Что является основной целью Spring Framework?;Dependency Injection и Inversion of Control (Внедрение зависимостей и Инверсия управления)%true|Чтобы сделать код более сложным%false|Только для написания XML-конфигураций%false|Чтобы заменить язык Java%false
+Какая аннотация используется для создания Spring Bean?;@Component%true|@Bean%true|@Entity%false|@Service%true|@Controller%true
+В чем разница между @Autowired и @Resource?;@Autowired - специфична для Spring, @Resource - стандарт Java EE%true|@Resource - специфична для Spring, @Autowired - стандарт Java EE%false|Они идентичны и взаимозаменяемы%false
+Что такое JPA?;Java Persistence API - спецификация для объектно-реляционного отображения (ORM)%true|Java Programming Application (Приложение на Java)%false|Just Another Persistence Abstraction (Просто еще одна абстракция постоянства)%false|JSON Processing API (API для обработки JSON)%false
+Какой интерфейс является корневым в Spring Data JPA?;JpaRepository%true|CrudRepository%true|PagingAndSortingRepository%true|ListRepository%false
+Для чего нужна аннотация @Transactional?;Для определения границ транзакции%true|Чтобы пометить метод как важный%false|Для создания таблиц в базе данных%false|Для улучшения производительности метода%false
+В чем разница между HTTP-методами GET и POST?;GET безопасен и идемпотентен, POST - нет%true|POST безопасен и идемпотентен, GET - нет%false|Они идентичны%false|GET имеет тело запроса, POST - нет%false
+Что такое REST?;Representational State Transfer (Передача репрезентативного состояния) - архитектурный стиль для веб-сервисов%true|Really Excellent System Technology (Действительно превосходная системная технология)%false|Remote Execution Service Template (Шаблон службы удаленного выполнения)%false|Rapid Enterprise Solution Tool (Инструмент быстрого корпоративного решения)%false
+Какая аннотация Spring используется для REST-контроллеров?;@RestController%true|@Controller%false|@Service%false|@Repository%false
+Для чего нужна аннотация @Value?;Для внедрения значений из файлов свойств%true|Для установки значений по умолчанию для методов%false|Для проверки входных параметров%false|Для пометки ценных классов%false
+Что такое Maven?;Инструмент автоматизации сборки и управления зависимостями%true|Язык программирования%false|Система управления базами данных%false|Фреймворк для тестирования%false
+В чем разница между @Mock и @InjectMocks?;@Mock создает mock-объект, @InjectMocks внедряет моки в тестируемый объект%true|@InjectMocks создает mock-объект, @Mock внедряет зависимости%false|Они идентичны%false|@Mock для модульных тестов, @InjectMocks для интеграционных%false
+Для чего нужна библиотека Lombok?;Для сокращения шаблонного кода с помощью аннотаций%true|Для улучшения производительности базы данных%false|Для создания веб-интерфейсов%false|Для обработки исключений%false
+Какая аннотация Lombok генерирует геттеры?;@Getter%true|@Getters%false|@GenerateGetter%false|@Data%true
+Что такое Docker?;Платформа для контейнеризации%true|Язык программирования%false|Система управления базами данных%false|Облачный провайдер%false
+В чем разница между JVM и JRE?;JVM выполняет байт-код, JRE - это среда выполнения%true|JRE выполняет байт-код, JVM - это среда выполнения%false|Они идентичны%false|JVM для разработки, JRE для производства%false
+Что такое полиморфизм в ООП?;Способность объектов принимать множество форм%true|Использование множественного наследования%false|Создание множества классов%false|Написание сложных алгоритмов%false
