@@ -14,7 +14,7 @@ public class TestRunnerServiceImpl implements TestRunnerService {
 
     private final ResultService resultService;
 
-    private final IOService ioService;
+    private final LocalizedIOService ioService;
 
     @Override
     public void run() {
@@ -23,7 +23,7 @@ public class TestRunnerServiceImpl implements TestRunnerService {
             var testResult = testService.executeTestFor(student);
             resultService.showResult(testResult);
         } catch (QuestionReadException e) {
-            ioService.printLine("Error reading data from file");
+            ioService.printFormattedLineLocalized("TestRunnerService.error.reading");
         }
     }
 }

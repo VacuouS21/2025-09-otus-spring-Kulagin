@@ -20,7 +20,7 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine("Please answer the questions below%n");
+        ioService.printFormattedLineLocalized("TestService.answer.the.questions", "%n");
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 
@@ -29,7 +29,7 @@ public class TestServiceImpl implements TestService {
             int numChooseAnswer = ioService.readIntForRangeWithPrompt(1,
                     question.answers().size(),
                     questionString,
-                    "Invalid answer format");
+                    ioService.getMessage("TestService.invalid.answer.format"));
             var isAnswerValid = question.answers()
                     .get(numChooseAnswer - 1)
                     .isCorrect();

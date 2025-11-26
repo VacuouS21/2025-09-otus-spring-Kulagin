@@ -8,9 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Setter
-@ConfigurationProperties
-// Использовать @ConfigurationProperties.
-// Сейчас класс соответствует файлу настроек. Чтобы они сюда отобразились нужно только правильно разместить аннотации
+@ConfigurationProperties(prefix = "test")
 public class AppProperties implements TestConfig, TestFileNameProvider, LocaleConfig {
 
     @Getter
