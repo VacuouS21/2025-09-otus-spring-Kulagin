@@ -13,7 +13,7 @@ public class QuestionStringConverterImpl implements QuestionStringConverter {
 
     @Override
     public String convertQuestionToString(Question question) {
-        return question.text() + "\n"
+        return question.text() + System.lineSeparator()
                 + convertAnswersToString(question.answers());
     }
 
