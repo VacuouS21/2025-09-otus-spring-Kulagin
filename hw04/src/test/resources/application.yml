@@ -4,7 +4,7 @@ spring:
       enabled: ALWAYS
   shell:
     interactive:
-      enabled: true
+      enabled: false
   messages:
     baseName: messages
     encoding: UTF-8

@@ -2,8 +2,9 @@ package ru.otus.hw.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.otus.hw.config.TestFileNameProvider;
 import ru.otus.hw.exceptions.QuestionReadException;
 
@@ -11,9 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest(classes = {CsvQuestionDao.class})
 class TestCsvQuestionDao {
 
-    @Mock
+    @MockitoBean
     private TestFileNameProvider fileNameProvider;
 
     private CsvQuestionDao csvQuestionDao;
