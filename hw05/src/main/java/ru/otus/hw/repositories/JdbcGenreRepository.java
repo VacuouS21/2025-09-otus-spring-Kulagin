@@ -1,5 +1,6 @@
 package ru.otus.hw.repositories;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -33,9 +34,14 @@ public class JdbcGenreRepository implements GenreRepository {
 
     @Override
     public List<Genre> findAllByIds(Set<Long> ids) {
-        Map<String, Object> params = Collections.singletonMap("id", ids);
-        return namedParameterJdbcOperations.query("select id,full_name from authors where id = ?", params, new GnreRowMapper());
-    }
+        Map<String, Object> params = Collections.singletonMap("ids", ids);
+        try{
+            List<Genre> genreList = namedParameterJdbcOperations.query("SELECT id, name FROM genres WHERE id IN (:ids)", params, new GnreRowMapper());
+            return genreList;
+        } catch (EmptyResultDataAccessException e) {
+            return List.of();
+        }
+        }
 
     private static class GnreRowMapper implements RowMapper<Genre> {
 
