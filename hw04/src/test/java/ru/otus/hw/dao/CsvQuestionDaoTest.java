@@ -2,7 +2,7 @@ package ru.otus.hw.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.otus.hw.config.TestFileNameProvider;
@@ -13,17 +13,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {CsvQuestionDao.class})
-class TestCsvQuestionDao {
+class CsvQuestionDaoTest {
 
     @MockitoBean
     private TestFileNameProvider fileNameProvider;
 
+    @Autowired
     private CsvQuestionDao csvQuestionDao;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        csvQuestionDao = new CsvQuestionDao(fileNameProvider);
     }
 
     @Test
