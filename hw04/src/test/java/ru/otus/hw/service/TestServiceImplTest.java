@@ -2,7 +2,7 @@ package ru.otus.hw.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.otus.hw.dao.QuestionDao;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
-class TestTestServiceImpl {
+class TestServiceImplTest {
 
     @MockitoBean
     private LocalizedIOService localizedIOService;
@@ -31,14 +31,13 @@ class TestTestServiceImpl {
     @MockitoBean
     private QuestionStringConverter questionStringConverter;
 
+    @Autowired
     private TestServiceImpl testService;
 
     private Student student;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        testService = new TestServiceImpl(localizedIOService, questionDao, questionStringConverter);
         student = new Student("Konst", "Kul");
     }
 
