@@ -30,7 +30,6 @@ public class JdbcAuthorRepository implements AuthorRepository {
 
     @Override
     public Optional<Author> findById(long id) {
-
         try {
             Map<String, Object> params = Collections.singletonMap("id", id);
             Author author = namedParameterJdbcOperations.queryForObject(
@@ -43,6 +42,7 @@ public class JdbcAuthorRepository implements AuthorRepository {
             return Optional.empty();
         }
     }
+
     @RequiredArgsConstructor
     private static class AuthorRowMapper implements RowMapper<Author> {
 

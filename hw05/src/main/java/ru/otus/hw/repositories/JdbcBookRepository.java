@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,15 +27,18 @@ import java.util.stream.Collectors;
 public class JdbcBookRepository implements BookRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+
     private final GenreRepository genreRepository;
 
     @Override
     public Optional<Book> findById(long id) {
-        String sql = "SELECT b.id, b.title, b.author_id, a.full_name as author_name, g.id as genre_id, g.name as genre_name FROM books b JOIN authors a ON b.author_id = a.id LEFT JOIN books_genres bg ON b.id = bg.book_id LEFT JOIN genres g ON bg.genre_id = g.id WHERE b.id = :id ";
-
         Map<String, Object> params = Collections.singletonMap("id", id);
-        Book book = namedParameterJdbcOperations.query(sql, params, new BookResultSetExtractor());
-
+        Book book = namedParameterJdbcOperations.query(
+                "SELECT b.id, b.title, b.author_id, a.full_name, g.id as genre_id, g.name FROM books b " +
+                        "JOIN authors a ON b.author_id = a.id LEFT JOIN books_genres bg ON b.id = bg.book_id " +
+                        "LEFT JOIN genres g ON bg.genre_id = g.id WHERE b.id = :id ",
+                params,
+                new BookResultSetExtractor());
         return Optional.ofNullable(book);
     }
 
@@ -65,9 +67,10 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private List<Book> getAllBooksWithoutGenres() {
-        String sql = "SELECT b.id, b.title, b.author_id, a.full_name as author_name FROM books b JOIN authors a ON b.author_id = a.id";
-
-        return namedParameterJdbcOperations.query(sql, new BookRowMapper());
+        return namedParameterJdbcOperations.query(
+                "select b.id, b.title, b.author_id, a.full_name as author_name from books b join authors a " +
+                        "on b.author_id = a.id",
+                new BookRowMapper());
     }
 
     private List<BookGenreRelation> getAllGenreRelations() {
@@ -85,19 +88,15 @@ public class JdbcBookRepository implements BookRepository {
         Map<Long, Genre> genreMap = genres.stream()
                 .collect(Collectors.toMap(Genre::getId, genre -> genre));
 
-        Map<Long, List<Long>> bookGenreMap = relations.stream()
-                .collect(Collectors.groupingBy(
-                        BookGenreRelation::bookId,
-                        Collectors.mapping(BookGenreRelation::genreId, Collectors.toList())
-                ));
+        Map<Long, Book> bookMap = booksWithoutGenres.stream()
+                .collect(Collectors.toMap(Book::getId, book -> book));
 
-        booksWithoutGenres.forEach(book -> {
-            List<Long> genreIds = bookGenreMap.getOrDefault(book.getId(), Collections.emptyList());
-            List<Genre> bookGenres = genreIds.stream()
-                    .map(genreMap::get)
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-            book.setGenres(bookGenres);
+        relations.forEach(relation -> {
+            Book book = bookMap.get(relation.bookId());
+            Genre genre = genreMap.get(relation.genreId());
+            if (book != null && genre != null) {
+                book.getGenres().add(genre);
+            }
         });
     }
 
@@ -122,8 +121,9 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private Book update(Book book) {
-        Map<String, Object> params = Map.of("id", book.getId(), "title", book.getTitle(), "author_id", book.getAuthor().getId());
-
+        Map<String, Object> params = Map.of("id", book.getId(),
+                "title", book.getTitle(),
+                "author_id", book.getAuthor().getId());
         int updatedRows = namedParameterJdbcOperations.update(
                 "UPDATE books SET title = :title, author_id = :author_id WHERE id = :id",
                 params
@@ -188,7 +188,7 @@ public class JdbcBookRepository implements BookRepository {
             long bookId = rs.getLong("id");
             String title = rs.getString("title");
             long authorId = rs.getLong("author_id");
-            String authorName = rs.getString("author_name");
+            String authorName = rs.getString("full_name");
             Author author = new Author(authorId, authorName);
 
             List<Genre> genres = new ArrayList<>();
@@ -196,7 +196,7 @@ public class JdbcBookRepository implements BookRepository {
             do {
                 long genreId = rs.getLong("genre_id");
                 if (!rs.wasNull()) {
-                    String genreName = rs.getString("genre_name");
+                    String genreName = rs.getString("name");
                     genres.add(new Genre(genreId, genreName));
                 }
             } while (rs.next());

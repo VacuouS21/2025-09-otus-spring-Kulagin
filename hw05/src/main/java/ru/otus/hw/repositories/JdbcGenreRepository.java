@@ -9,17 +9,16 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public class JdbcGenreRepository implements GenreRepository {
 
     private final JdbcOperations jdbc;
+
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
     public JdbcGenreRepository(NamedParameterJdbcOperations namedParameterJdbcOperations) {
@@ -35,13 +34,14 @@ public class JdbcGenreRepository implements GenreRepository {
     @Override
     public List<Genre> findAllByIds(Set<Long> ids) {
         Map<String, Object> params = Collections.singletonMap("ids", ids);
-        try{
-            List<Genre> genreList = namedParameterJdbcOperations.query("SELECT id, name FROM genres WHERE id IN (:ids)", params, new GnreRowMapper());
+        try {
+            List<Genre> genreList = namedParameterJdbcOperations.query("SELECT id, name FROM genres WHERE id IN (:ids)",
+                    params, new GnreRowMapper());
             return genreList;
         } catch (EmptyResultDataAccessException e) {
             return List.of();
         }
-        }
+    }
 
     private static class GnreRowMapper implements RowMapper<Genre> {
 
